@@ -18,18 +18,18 @@ document.addEventListener("DOMContentLoaded", function() {
   const closeForm = document.getElementById("closeForm");
 
   openFormBtn.onclick = function() {
-    modal.style.display = "block";
-  }
+    modal.style.display = "block"; // 顯示彈出視窗
+  };
 
   closeForm.onclick = function() {
-    modal.style.display = "none";
-  }
+    modal.style.display = "none"; // 關閉彈出視窗
+  };
 
   window.onclick = function(event) {
     if (event.target === modal) {
-      modal.style.display = "none";
+      modal.style.display = "none"; // 點擊外部區域關閉視窗
     }
-  }
+  };
 
   // 填充裝置名稱和型號的下拉清單
   const deviceData = [
