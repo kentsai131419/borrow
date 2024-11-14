@@ -3,41 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>借還總清單</title>
+    <title>設備逾期清單</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
             <a href="index.html">首頁</a>
+            <a href="record.html">借還總清單</a>
             <a href="equipment.html">設備清單</a>
-            <a href="overdue.html">設備逾期清單</a>
         </nav>
     </header>
 
     <main>
-        <h1>借還紀錄列表</h1>
-        <input type="text" id="search" placeholder="搜尋借還紀錄" onkeyup="searchRecords()">
-        
-        <table id="record-table">
+        <h1>設備逾期清單</h1>
+        <table id="overdue-table">
             <thead>
                 <tr>
-                    <th>借用人姓名</th>
-                    <th>借用人電話</th>
                     <th>裝置名稱</th>
                     <th>設備型號</th>
+                    <th>序號</th>
                     <th>借出日期</th>
                     <th>歸還日期</th>
-                    <th>狀態</th>
-                    <th>是否逾期</th>
+                    <th>逾期狀態</th>
+                    <th>備註</th>
                 </tr>
             </thead>
-            <tbody id="record-list">
-                <!-- 使用 JavaScript 加載記錄列表 -->
+            <tbody id="overdue-list">
+                <!-- 使用 JavaScript 加載逾期清單 -->
             </tbody>
         </table>
     </main>
 
-    <script src="record.js"></script>
+    <script src="overdue.js"></script>
 </body>
 </html>
