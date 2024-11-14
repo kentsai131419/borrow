@@ -17,32 +17,8 @@
 
     <main>
         <h1>設備清單</h1>
-        <button id="add-equipment-btn">新增設備</button>
-
-        <!-- 新增設備的彈出表單 -->
-        <div id="addForm" class="form-popup" style="display: none;">
-            <form id="addEquipmentForm" class="form-container">
-                <h2>新增設備</h2>
-                <label for="device-name">裝置名稱</label>
-                <input type="text" id="device-name" required>
-
-                <label for="device-model">設備型號</label>
-                <input type="text" id="device-model" required>
-
-                <label for="serial-number">序號</label>
-                <input type="text" id="serial-number" required>
-
-                <label for="status">目前狀態</label>
-                <input type="text" id="status" required>
-
-                <label for="notes">備註</label>
-                <textarea id="notes"></textarea>
-
-                <button type="button" onclick="submitEquipment()">提交</button>
-                <button type="button" onclick="closeAddForm()">取消</button>
-            </form>
-        </div>
-
+        <button onclick="openAddForm()">新增設備</button>
+        
         <table id="equipment-table">
             <thead>
                 <tr>
