@@ -17,17 +17,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const modal = document.getElementById("borrowForm");
   const closeForm = document.getElementById("closeForm");
 
+  // 開啟彈出視窗
   openFormBtn.onclick = function() {
     modal.style.display = "block"; // 顯示彈出視窗
   };
 
+  // 關閉彈出視窗
   closeForm.onclick = function() {
-    modal.style.display = "none"; // 關閉彈出視窗
+    modal.style.display = "none"; // 隱藏彈出視窗
   };
 
+  // 如果用戶點擊彈出框外部，則也關閉彈出框
   window.onclick = function(event) {
     if (event.target === modal) {
-      modal.style.display = "none"; // 點擊外部區域關閉視窗
+      modal.style.display = "none";
     }
   };
 
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   deviceNameSelect.onchange = function() {
     // 更新設備型號選擇
-    deviceModelSelect.innerHTML = "";
+    deviceModelSelect.innerHTML = ""; // 清空型號選項
     const selectedDevice = deviceData.find(device => device.name === deviceNameSelect.value);
     selectedDevice.models.forEach(model => {
       const option = document.createElement("option");
@@ -71,8 +74,9 @@ document.addEventListener("DOMContentLoaded", function() {
       deviceName: document.getElementById("deviceName").value,
       deviceModel: document.getElementById("deviceModel").value
     };
-    console.log(formData);
-    // 這裡可以將表單資料送到伺服器或本地儲存
+    console.log(formData); // 在控制台打印表單資料
+
+    // 可以將表單資料送到伺服器或本地儲存
     modal.style.display = "none"; // 提交後關閉表單
   };
 });
