@@ -1,100 +1,118 @@
-let editRowIndex = null; // 用於跟踪當前編輯的行索引
+// 選取所需的 HTML 元素
+const equipmentList = document.getElementById("equipment-list");
+const addEquipmentBtn = document.getElementById("add-equipment-btn");
+let editingRow = null;
 
-// 開啟新增設備的表單
+// 新增設備表單元素的創建
 function openAddForm() {
-    document.getElementById("addForm").style.display = "block";
+    const formContainer = document.createElement("div");
+    formContainer.id = "addForm";
+    formContainer.className = "form-popup";
+
+    formContainer.innerHTML = `
+        <h2>新增設備</h2>
+        <label>裝置名稱</label>
+        <input type="text" id="deviceName" required>
+        
+        <label>設備型號</label>
+        <input type="text" id="deviceModel" required>
+        
+        <label>序號</label>
+        <input type="text" id="serialNumber" required>
+        
+        <label>目前狀態</label>
+        <input type="text" id="currentStatus" required>
+        
+        <label>備註</label>
+        <input type="text" id="notes">
+        
+        <button onclick="submitEquipment()">提交</button>
+        <button onclick="closeAddForm()">取消</button>
+    `;
+    
+    document.body.appendChild(formContainer);
 }
 
-// 關閉新增設備的表單
+// 關閉新增設備表單
 function closeAddForm() {
-    document.getElementById("addForm").style.display = "none";
+    const formContainer = document.getElementById("addForm");
+    if (formContainer) {
+        document.body.removeChild(formContainer);
+    }
 }
 
-// 開啟編輯設備的表單
-function openEditForm() {
-    document.getElementById("editForm").style.display = "block";
-}
-
-// 關閉編輯設備的表單
-function closeEditForm() {
-    document.getElementById("editForm").style.display = "none";
-}
-
-// 新增設備資料
-document.getElementById("addEquipmentForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const deviceName = document.getElementById("device-name").value;
-    const deviceModel = document.getElementById("device-model").value;
-    const serialNumber = document.getElementById("serial-number").value;
-    const status = document.getElementById("status").value;
+// 提交設備表單
+function submitEquipment() {
+    const deviceName = document.getElementById("deviceName").value;
+    const deviceModel = document.getElementById("deviceModel").value;
+    const serialNumber = document.getElementById("serialNumber").value;
+    const currentStatus = document.getElementById("currentStatus").value;
     const notes = document.getElementById("notes").value;
-    addEquipmentToList(deviceName, deviceModel, serialNumber, status, notes);
-    document.getElementById("addEquipmentForm").reset();
+
+    if (editingRow) {
+        // 如果正在編輯，則更新該行的值
+        editingRow.cells[0].textContent = deviceName;
+        editingRow.cells[1].textContent = deviceModel;
+        editingRow.cells[2].textContent = serialNumber;
+        editingRow.cells[3].textContent = currentStatus;
+        editingRow.cells[4].textContent = notes;
+        editingRow = null;
+    } else {
+        // 如果不是編輯狀態，則新增一列設備
+        addEquipmentRow(deviceName, deviceModel, serialNumber, currentStatus, notes);
+    }
+
     closeAddForm();
-});
+}
+
+// 新增一列設備到表格
+function addEquipmentRow(deviceName, deviceModel, serialNumber, currentStatus, notes) {
+    const row = equipmentList.insertRow();
+
+    row.insertCell(0).textContent = deviceName;
+    row.insertCell(1).textContent = deviceModel;
+    row.insertCell(2).textContent = serialNumber;
+    row.insertCell(3).textContent = currentStatus;
+    row.insertCell(4).textContent = notes;
+
+    // 加入「編輯」按鈕
+    const editCell = row.insertCell(5);
+    const editButton = document.createElement("button");
+    editButton.textContent = "編輯";
+    editButton.onclick = function() {
+        editEquipment(row);
+    };
+    editCell.appendChild(editButton);
+
+    // 加入「刪除」按鈕
+    const deleteCell = row.insertCell(6);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "刪除";
+    deleteButton.onclick = function() {
+        deleteEquipment(row);
+    };
+    deleteCell.appendChild(deleteButton);
+}
 
 // 編輯設備資料
-document.getElementById("editEquipmentForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const deviceName = document.getElementById("edit-device-name").value;
-    const deviceModel = document.getElementById("edit-device-model").value;
-    const serialNumber = document.getElementById("edit-serial-number").value;
-    const status = document.getElementById("edit-status").value;
-    const notes = document.getElementById("edit-notes").value;
-    
-    // 更新行的內容
-    updateEquipmentRow(editRowIndex, deviceName, deviceModel, serialNumber, status, notes);
-    closeEditForm();
-});
+function editEquipment(row) {
+    openAddForm();
 
-// 將設備新增到清單表格中
-function addEquipmentToList(name, model, serial, status, notes) {
-    const table = document.getElementById("equipment-list");
-    const row = table.insertRow();
-    
-    row.insertCell(0).innerText = name;
-    row.insertCell(1).innerText = model;
-    row.insertCell(2).innerText = serial;
-    row.insertCell(3).innerText = status;
-    row.insertCell(4).innerText = notes;
+    document.getElementById("deviceName").value = row.cells[0].textContent;
+    document.getElementById("deviceModel").value = row.cells[1].textContent;
+    document.getElementById("serialNumber").value = row.cells[2].textContent;
+    document.getElementById("currentStatus").value = row.cells[3].textContent;
+    document.getElementById("notes").value = row.cells[4].textContent;
 
-    // 添加編輯和刪除按鈕
-    const actionsCell = row.insertCell(5);
-    actionsCell.innerHTML = `
-        <button onclick="editEquipment(${row.rowIndex})">編輯</button>
-        <button onclick="removeEquipment(${row.rowIndex})">刪除</button>
-    `;
+    editingRow = row;
 }
 
-// 開始編輯設備
-function editEquipment(index) {
-    editRowIndex = index;
-    const table = document.getElementById("equipment-list");
-    const row = table.rows[index - 1];
-
-    // 將該行的內容填入編輯表單
-    document.getElementById("edit-device-name").value = row.cells[0].innerText;
-    document.getElementById("edit-device-model").value = row.cells[1].innerText;
-    document.getElementById("edit-serial-number").value = row.cells[2].innerText;
-    document.getElementById("edit-status").value = row.cells[3].innerText;
-    document.getElementById("edit-notes").value = row.cells[4].innerText;
-
-    openEditForm();
+// 刪除設備資料
+function deleteEquipment(row) {
+    if (confirm("確定要刪除此設備嗎？")) {
+        row.remove();
+    }
 }
 
-// 更新表格中的設備資料
-function updateEquipmentRow(index, name, model, serial, status, notes) {
-    const table = document.getElementById("equipment-list");
-    const row = table.rows[index - 1];
-
-    row.cells[0].innerText = name;
-    row.cells[1].innerText = model;
-    row.cells[2].innerText = serial;
-    row.cells[3].innerText = status;
-    row.cells[4].innerText = notes;
-}
-
-// 移除設備資料
-function removeEquipment(index) {
-    document.getElementById("equipment-list").deleteRow(index - 1);
-}
+// 設置「新增設備」按鈕點擊事件
+addEquipmentBtn.onclick = openAddForm;
