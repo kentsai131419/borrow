@@ -1,0 +1,81 @@
+!DOCTYPE html
+html lang=zh-TW
+head
+    meta charset=UTF-8
+    meta name=viewport content=width=device-width, initial-scale=1.0
+    title設備借還title
+    link rel=stylesheet href=styles.css
+head
+body
+    header
+        nav
+            a href=record.html借還總清單a
+            a href=equipment.html設備清單a
+            a href=overdue.html設備逾期清單a
+        nav
+    header
+    
+    main
+        div id=calendar
+            !-- 嵌入 Google 日曆 iframe --
+            iframe src=YOUR_GOOGLE_CALENDAR_LINK style=border 0 width=100% height=600 frameborder=0 scrolling=noiframe
+        div
+        
+        section id=recent-records
+            h2最新 10 筆借還清單h2
+            div id=records-list
+                !-- 這裡將使用 JavaScript 加載最新 10 筆紀錄 --
+            div
+        section
+        
+        button onclick=openForm()新增借還紀錄button
+    main
+    
+    !-- 彈出視窗表單 --
+    div id=form-popup class=form-popup
+        form id=borrowForm class=form-container
+            h2新增借還紀錄h2
+            label for=name借用人姓名label
+            input type=text id=name required
+
+            label for=phone借用人電話label
+            input type=text id=phone required
+
+            label for=borrow-date借出日期label
+            input type=date id=borrow-date required
+
+            label for=return-date歸還日期label
+            input type=date id=return-date required
+
+            label for=device-name裝置名稱label
+            select id=device-name
+                option value=device1裝置1option
+                !-- 可動態增加其他選項 --
+            select
+
+            label for=device-model設備型號label
+            select id=device-model
+                option value=model1型號1option
+                !-- 可動態增加其他選項 --
+            select
+
+            label for=status狀態label
+            select id=status
+                option value=借出中借出中option
+                option value=已歸還已歸還option
+            select
+
+            label for=overdue是否逾期label
+            select id=overdue
+                option value=否否option
+                option value=是是option
+            select
+
+            button type=submit提交button
+            button type=button onclick=closeForm()取消button
+        form
+    div
+
+    script src=index.jsscript
+body
+html

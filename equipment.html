@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設備清單</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">首頁</a>
+            <a href="record.html">借還總清單</a>
+            <a href="overdue.html">設備逾期清單</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>設備清單</h1>
+        <button onclick="openAddForm()">新增設備</button>
+        
+        <table id="equipment-table">
+            <thead>
+                <tr>
+                    <th>裝置名稱</th>
+                    <th>設備型號</th>
+                    <th>序號</th>
+                    <th>目前狀態</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody id="equipment-list">
+                <!-- 使用 JavaScript 加載設備列表 -->
+            </tbody>
+        </table>
+    </main>
+
+    <script src="equipment.js"></script>
+</body>
+</html>
