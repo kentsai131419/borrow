@@ -5,6 +5,11 @@ let editingRow = null;
 
 // 新增設備表單元素的創建
 function openAddForm() {
+    // 檢查是否已經有開啟的表單，避免重複生成
+    if (document.getElementById("addForm")) {
+        return;
+    }
+
     const formContainer = document.createElement("div");
     formContainer.id = "addForm";
     formContainer.className = "form-popup";
@@ -29,7 +34,7 @@ function openAddForm() {
         <button onclick="submitEquipment()">提交</button>
         <button onclick="closeAddForm()">取消</button>
     `;
-    
+
     document.body.appendChild(formContainer);
 }
 
@@ -50,7 +55,7 @@ function submitEquipment() {
     const notes = document.getElementById("notes").value;
 
     if (editingRow) {
-        // 如果正在編輯，則更新該行的值
+        // 更新已存在的行
         editingRow.cells[0].textContent = deviceName;
         editingRow.cells[1].textContent = deviceModel;
         editingRow.cells[2].textContent = serialNumber;
@@ -58,7 +63,7 @@ function submitEquipment() {
         editingRow.cells[4].textContent = notes;
         editingRow = null;
     } else {
-        // 如果不是編輯狀態，則新增一列設備
+        // 新增一行設備
         addEquipmentRow(deviceName, deviceModel, serialNumber, currentStatus, notes);
     }
 
@@ -75,7 +80,7 @@ function addEquipmentRow(deviceName, deviceModel, serialNumber, currentStatus, n
     row.insertCell(3).textContent = currentStatus;
     row.insertCell(4).textContent = notes;
 
-    // 加入「編輯」按鈕
+    // 編輯按鈕
     const editCell = row.insertCell(5);
     const editButton = document.createElement("button");
     editButton.textContent = "編輯";
@@ -84,7 +89,7 @@ function addEquipmentRow(deviceName, deviceModel, serialNumber, currentStatus, n
     };
     editCell.appendChild(editButton);
 
-    // 加入「刪除」按鈕
+    // 刪除按鈕
     const deleteCell = row.insertCell(6);
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "刪除";
